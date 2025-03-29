@@ -1,0 +1,35 @@
+﻿@model List<string>
+@{
+    ViewData["Title"] = "Robot Controller";
+    var robotMap = ViewData["RobotMap"] as RobotMap;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h2>Available Commands</h2>
+<ul>
+@foreach(var cmd in Model)
+{
+    <li>@cmd</li>
+}
+</ul>
+
+<h2>Robot Map</h2>
+<p>Size: @robotMap.MapSize</p>
+<p>Area: @robotMap.Area</p>
+
+<button id="updateMapBtn">Update Map</button>
+
+@section Scripts {
+<script>
+    document.getElementById('updateMapBtn').addEventListener('click', function() {
+        fetch('/Robot/UpdateMap', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify("20x20")
+        })
+        .then(response => response.json())
+        .then(data => alert(data.message));
+    });
+</script>
+}
