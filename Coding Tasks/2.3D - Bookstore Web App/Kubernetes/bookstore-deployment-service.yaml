@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstore-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bookstore  
+  template:  
+    metadata:
+      labels:
+        app: bookstore  
+    spec:
+      containers:
+      - name: bookstore
+        image: localhost:5000/bookstore:v1
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookstore-service
+spec:
+  selector:
+    app: bookstore 
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort 

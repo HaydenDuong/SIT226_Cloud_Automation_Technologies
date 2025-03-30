@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lac T. Duong\\Desktop\\SIT 226_727 - Cloud Automation Technologies\\Coding Tasks\\Bookstore\\Bookstore.csproj",
+      "projectUniqueName": "C:\\Users\\Lac T. Duong\\Desktop\\SIT 226_727 - Cloud Automation Technologies\\Coding Tasks\\2.3D - Bookstore Web App\\Bookstore.csproj",
       "projectName": "Bookstore",
-      "projectPath": "C:\\Users\\Lac T. Duong\\Desktop\\SIT 226_727 - Cloud Automation Technologies\\Coding Tasks\\Bookstore\\Bookstore.csproj",
+      "projectPath": "C:\\Users\\Lac T. Duong\\Desktop\\SIT 226_727 - Cloud Automation Technologies\\Coding Tasks\\2.3D - Bookstore Web App\\Bookstore.csproj",
       "packagesPath": "C:\\Users\\Lac T. Duong\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lac T. Duong\\Desktop\\SIT 226_727 - Cloud Automation Technologies\\Coding Tasks\\Bookstore\\obj\\",
+      "outputPath": "C:\\Users\\Lac T. Duong\\Desktop\\SIT 226_727 - Cloud Automation Technologies\\Coding Tasks\\2.3D - Bookstore Web App\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Lac T. Duong\\AppData\\Roaming\\NuGet\\NuGet.Config",
