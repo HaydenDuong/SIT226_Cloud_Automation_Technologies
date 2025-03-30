@@ -14,13 +14,13 @@ public class BookController : Controller
     // GET: /Book
     public IActionResult Index()
     {
-        return View(_books); // Hiển thị danh sách sách
+        return View(_books);
     }
 
     // GET: /Book/Add
     public IActionResult Add()
     {
-        return View(); // Form thêm sách
+        return View();
     }
 
     // POST: /Book/Add
