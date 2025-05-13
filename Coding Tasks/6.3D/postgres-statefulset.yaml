@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+spec:
+  serviceName: postgres-headless
+  replicas: 2
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      initContainers:
+        - name: init-replica
+          image: postgres:14
+          command:
+            - bash
+            - -c
+            - |
+              if [ "$(hostname)" = "postgres-1" ] && [ ! -f /var/lib/postgresql/data/PG_VERSION ]; then
+                export PGPASSWORD="$REPLICATION_PASSWORD"
+                pg_basebackup -h postgres-0.postgres-headless -D /var/lib/postgresql/data -U $REPLICATION_USER --progress --verbose --wal-method=stream
+                touch /var/lib/postgresql/data/standby.signal
+                echo "primary_conninfo = 'host=postgres-0.postgres-headless port=5432 user=$REPLICATION_USER password=$REPLICATION_PASSWORD'" >> /var/lib/postgresql/data/postgresql.auto.conf
+              fi
+          envFrom:
+            - secretRef:
+                name: postgres-secret
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+      containers:
+        - name: postgres
+          image: postgres:14
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: postgres-secret
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
