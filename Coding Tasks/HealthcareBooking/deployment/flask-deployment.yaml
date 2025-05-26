@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-deployment
+  labels:
+    app: healthcare-booking
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: healthcare-booking
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: healthcare-booking
+        tier: frontend
+    spec:
+      containers:
+      - name: flask-app-container
+        image: hayden2310/healthcarebooking_app:v1 # Your Docker Hub image
+        ports:
+        - containerPort: 5000
+        env:
+        # Database connection details will be passed via a Secret and ConfigMap later
+        # For now, the app relies on its defaults (DB_HOST=postgres-db)
+        # which won't work in K8s yet until we deploy PostgreSQL there.
+        # This initial deployment will likely have DB connection errors, which is expected at this stage.
+        - name: FLASK_APP 
+          value: "app.py"
+        - name: FLASK_RUN_HOST
+          value: "0.0.0.0"
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        # Add readiness and liveness probes for better health checking (good practice for K8s)
+        readinessProbe:
+          httpGet:
+            path: /  # Or a more specific health check endpoint if you create one
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 20 

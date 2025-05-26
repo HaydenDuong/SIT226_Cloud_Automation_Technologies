@@ -1,0 +1,28 @@
+apiVersion: autoscaling/v2 # Using v2 for richer features, v1 is also common for CPU
+kind: HorizontalPodAutoscaler
+metadata:
+  name: flask-app-hpa
+  labels:
+    app: healthcare-booking
+    tier: frontend
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: flask-app-deployment # Must match the name of your Deployment
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50 # Target 50% CPU utilization
+# You can also add memory-based scaling or custom metrics if needed later
+# - type: Resource
+#   resource:
+#     name: memory
+#     target:
+#       type: AverageValue # or Utilization
+#       averageValue: 200Mi # Example: Target 200 MiB 

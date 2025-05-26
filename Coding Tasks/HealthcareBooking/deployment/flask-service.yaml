@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app-service
+  labels:
+    app: healthcare-booking
+    tier: frontend
+spec:
+  type: ClusterIP # Exposes the service on an internal IP in the cluster
+  # For local testing with minikube/Docker Desktop, you might use NodePort later for easier browser access without port-forwarding
+  # type: NodePort 
+  selector:
+    app: healthcare-booking # This must match the labels of the pods managed by the Deployment
+    tier: frontend
+  ports:
+  - protocol: TCP
+    port: 5000       # Port that other services in the cluster will use to access this service
+    targetPort: 5000 # Port on the pods that this service will forward traffic to 

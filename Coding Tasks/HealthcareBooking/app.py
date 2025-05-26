@@ -8,12 +8,13 @@ app = Flask(__name__)
 DB_NAME = "healthcare"
 DB_USER = "postgres"
 DB_PASS = "qelol669"
-DB_HOST = "127.0.0.1"
+# When running in Docker, DB_HOST should be the service name of the PostgreSQL container
+DB_HOST = "postgres-db" 
 DB_PORT = "5432"
 
 def get_db_connection():
     conn = psycopg2.connect(
-        dbname=DB_NAME,
+        dbname=DB_NAME, 
         user=DB_USER,
         password=DB_PASS,
         host=DB_HOST,
@@ -49,7 +50,7 @@ def book_appointment():
         conn.close()
         return jsonify({"message": "Appointment booked successfully!", "appointment_id": appointment_id}), 201
     except Exception as e:
-        print(f"Error in /book-appointment: {e}")
+        print(f"Error in /book-appointment: {e}") 
         return jsonify({"error": str(e)}), 500
 
 @app.route('/appointments', methods=['GET'])
@@ -76,10 +77,8 @@ def get_appointments():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    host = '0.0.0.0'
-    port = 5000
-    print(f"Application is starting...")
-    print(f"Booking page will be available at http://localhost:{port}/book")
-    print(f"API endpoint for GET appointments: http://localhost:{port}/appointments")
-    print(f"API endpoint for POST appointment: http://localhost:{port}/book-appointment")
-    app.run(host=host, port=port)
+    # When running with `flask run` (like in the Dockerfile CMD), 
+    # host and port are typically set by FLASK_RUN_HOST and FLASK_RUN_PORT env vars.
+    # The app.run() in __main__ is more for direct `python app.py` execution.
+    # For Docker, the CMD ["flask", "run"] with ENV FLASK_RUN_HOST 0.0.0.0 takes care of it.
+    app.run(host='0.0.0.0', port=5000) # This line is fine for direct execution too.
