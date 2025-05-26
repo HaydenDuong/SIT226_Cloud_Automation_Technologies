@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Book Your Appointment</h1>
+        <form action="/book-appointment" method="POST">
+            <label for="patient_name">Patient Name:</label>
+            <input type="text" id="patient_name" name="patient_name" required>
+
+            <label for="doctor">Choose a Doctor:</label>
+            <select id="doctor" name="doctor_id" required>
+                <option value="" disabled selected>Select a doctor</option>
+                <option value="1">Dr. Smith (Cardiology)</option>
+                <option value="2">Dr. Jones (Neurology)</option>
+                <option value="3">Dr. Taylor (Pediatrics)</option>
+            </select>
+
+            <label for="appointment_time">Appointment Time:</label>
+            <input type="datetime-local" id="appointment_time" name="appointment_time" required>
+
+            <button type="submit">Book Appointment</button>
+        </form>
+    </div>
+</body>
+</html> 
