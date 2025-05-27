@@ -1,0 +1,1 @@
+CREATE INDEX idx_appointment_time ON appointments (appointment_time); 
