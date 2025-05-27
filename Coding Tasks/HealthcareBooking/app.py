@@ -8,8 +8,8 @@ app = Flask(__name__)
 DB_NAME = "healthcare"
 DB_USER = "postgres"
 DB_PASS = "qelol669"
-# When running in Docker, DB_HOST should be the service name of the PostgreSQL container
-DB_HOST = "postgres-db" 
+# When running in Kubernetes, DB_HOST should be the Kubernetes Service name for PostgreSQL
+DB_HOST = "postgres" 
 DB_PORT = "5432"
 
 def get_db_connection():
@@ -24,7 +24,9 @@ def get_db_connection():
 
 @app.route('/')
 def home():
-    return "Healthcare Appointment Booking System"
+    # For K8s liveness/readiness probes, ensure this doesn't cause an error if DB is temporarily down
+    # A simple string return is safest for basic probes.
+    return "Healthcare Appointment Booking System - Kubernetes Edition"
 
 @app.route('/book')
 def book():
